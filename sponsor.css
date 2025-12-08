@@ -1,0 +1,296 @@
+/* sponsor.css — مُحدَّث وموحّد */
+
+/* === تنسيق عام للبطاقات === */
+.sponsor-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: white;
+  font-family: "Cairo", sans-serif;
+}
+.sponsor-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-image {
+  position: relative;
+  height: 250px;
+  overflow: hidden;
+}
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.sponsor-card:hover .card-image img {
+  transform: scale(1.05);
+}
+
+.amount-tag {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #0d6efd;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  z-index: 2;
+}
+
+.card-body {
+  padding: 20px 16px;
+  text-align: center;
+}
+.card-body h3 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: #333;
+  font-weight: 600;
+}
+
+.duration-info {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  font-size: 14px;
+}
+.duration-item span {
+  display: block;
+  font-size: 12px;
+  color: #6c757d;
+  margin-bottom: 5px;
+}
+.duration-item strong {
+  font-size: 16px;
+  color: #0d6efd;
+  font-weight: 600;
+}
+
+/*  === الأزرار: 3 أزرار محاذاة في سطر واحد، متناسقة وواضحة === */
+.card-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px; /* تباعد موحد */
+  margin-top: 20px;
+  flex-wrap: nowrap; /* منع الالتفاف إلا عند الضرورة القصوى */
+}
+
+.card-actions .btn {
+  font-family: "Cairo", sans-serif;
+  font-weight: 600;
+  padding: 7px 12px;
+  border-radius: 8px;
+   font-size: 12px;
+  min-width: 95px;     
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+   gap: 5px;  
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.card-actions .btn-outline-primary {
+  border-color: #0d6efd;
+  color: #0d6efd;
+  background: transparent;
+}
+.card-actions .btn-outline-primary:hover {
+  background: #0d6efd;
+  color: white;
+}
+
+.card-actions .btn-primary {
+  background: #0d6efd;
+  border-color: #0d6efd;
+  color: white;
+}
+.card-actions .btn-primary:hover {
+  background: #0b5ed7;
+  border-color: #0b5ed7;
+}
+
+/*  زر المشاركة — مُحسّن ليكون بنفس "الارتفاع البصري" كالأزرار الأخرى */
+.card-actions .btn-share {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem; 
+  background-color: #3b82f6;
+  color: white;
+  border: 2px solid #3b82f6;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  box-shadow: 0 2px 5px rgba(59, 130, 246, 0.3);
+}
+.card-actions .btn-share:hover {
+  background-color: #2563eb;
+  border-color: #2563eb;
+  transform: scale(1.08);
+}
+
+/*  استجابة للجوال: لا نستخدم flex-direction: column إلا عند العرض < 360px */
+@media (max-width: 576px) {
+  .card-actions {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .card-actions .btn {
+    min-width: 110px;
+    padding: 9px 14px;
+    font-size: 13px;
+  }
+
+  /* ضمان عدم اختفاء زر المشاركة بين الأزرار */
+  .card-actions > *:nth-child(2) {
+    order: 2;
+  }
+  .card-actions > *:nth-child(3) {
+    order: 3;
+  }
+}
+
+/* تحسين إضافي لشاشات ضيقة جدًا (< 360px) */
+@media (max-width: 360px) {
+  .card-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .card-actions .btn,
+  .card-actions .btn-share {
+    min-width: auto;
+    justify-content: center;
+  }
+  .card-actions .btn-share {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto;
+  }
+}
+/* === زر الفلترة === */
+.filter-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 20px;
+  font-family: "Cairo", sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  background: #f8f9fa;
+  color: #495057;
+}
+.filter-btn.active,
+.filter-btn:hover {
+  background: #0d6efd;
+  color: white;
+}
+
+/* === ختم الحالة === */
+.status-badge {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+  font-family: "Cairo", sans-serif;
+  color: white;
+  border-radius: 8px 8px 0 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  z-index: 3;
+}
+.status-badge.fully-sponsored { background: #2ecc71; }
+.status-badge.partially-sponsored { background: #e74c3c; }
+
+/*  نافذة المشاركة (مُوحّدة) */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  text-align: center;
+}
+.modal-close {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+}
+.share-icons {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin-top: 1.5rem;
+}
+.share-icons a,
+.share-icons button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 1.4rem;
+  color: white;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+.share-icons a[href*="wa.me"] { background-color: #25D366; }
+.share-icons a[href*="facebook.com"] { background-color: #1877f2; }
+.share-icons button { background-color: #6b7280; }
+.share-icons a:hover,
+.share-icons button:hover { transform: scale(1.1); }
+
+/*  استجابة للجوال */
+@media (max-width: 576px) {
+  .card-actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .card-actions .btn-share {
+    margin: 0 auto;
+  }
+  .status-badge {
+    height: 30px;
+    font-size: 12px;
+    padding: 0 8px;
+  }
+  .sponsor-card { margin-bottom: 20px; }
+  .duration-info { flex-direction: column; gap: 10px; }
+}

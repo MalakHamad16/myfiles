@@ -1,0 +1,137 @@
+/* ==========================================
+   صفحة "من نحن" - GiveHope
+   ========================================== */
+
+/* -------------------------------
+   إعدادات عامة للصفحة
+   ------------------------------- */
+body {
+  background-color: #f0f4f8; /* خلفية فاتحة ولطيفة */
+  color: #1e293b; /* لون نص رئيسي داكن يسهل قراءته */
+  font-family: "Cairo", sans-serif; /* خط عربي أنيق */
+}
+
+/* -------------------------------
+   الحاوية الرئيسية (main)
+   ------------------------------- */
+main {
+  max-width: 1200px; /* يمنع التمدد اللامحدود على الشاشات الكبيرة */
+  margin: 2rem auto; /* توسيط الصفحة عموديًا وأفقيًا */
+  padding: 0 20px; /* مسافة داخلية من الجانبين لتجنب الالتصاق بالحافة */
+}
+
+/* -------------------------------
+   قسم المقدمة (الوصف العام)
+   ------------------------------- */
+.about-intro {
+  background: linear-gradient(135deg, #dbeafe, #eff6ff); /* تدرج لوني ناعم */
+  padding: 2.5rem;
+  border-radius: 18px; /* زوايا مدورة لإضفاء طابع عصري */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08); /* ظل خفيف لإبراز القسم */
+  margin-bottom: 2.5rem;
+  text-align: justify; /* محاذاة نص عربية بشكل جميل */
+  line-height: 1.9; /* تباعد أسطر جيد للقراءة */
+  font-size: 1.1rem;
+  color: #1e293b;
+}
+
+/* عنوان قسم المقدمة */
+.about-intro h1 {
+  font-size: 2.3rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #1e40af; /* لون أزرق داكن    */
+  position: relative;
+}
+
+/* خط زخرفي تحت العنوان */
+.about-intro h1::after {
+  content: "";
+  width: 70px;
+  height: 4px;
+  background: linear-gradient(90deg, #3b82f6, #60a5fa); /* تدرج أزرق  */
+  display: block;
+  margin: 0.5rem auto 0; /* توسيط الخط تحت العنوان */
+  border-radius: 2px;
+}
+
+/* -------------------------------
+   قسم الرؤية والرسالة (بطاقات جانبًا إلى جانب)
+   ------------------------------- */
+.vision-mission {
+  display: flex;
+  gap: 2rem; /* مسافة بين البطاقات */
+  margin-bottom: 2.5rem;
+}
+
+/* تصميم البطاقة العامة */
+.card {
+  flex: 1; /* تأخذ مساحة متساوية */
+  background: white;
+  padding: 2rem;
+  border-radius: 18px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  transition: transform 0.3s ease; /* تأثير سلس عند التحويم */
+}
+
+/* تأثير عند تمرير المؤشر (hover) */
+.card:hover {
+  transform: translateY(-5px); /* ترفع البطاقة قليلًا */
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); /* ظل أقوى لإبراز التفاعل */
+}
+
+/* ألوان مميزة لكل بطاقة */
+.card.vision {
+  border-top: 4px solid #3b82f6; /* لون أزرق للرؤية */
+}
+.card.mission {
+  border-top: 4px solid #60a5fa; /* لون أزرق فاتح للرسالة */
+}
+
+/* أيقونة البطاقة */
+.card i {
+  font-size: 2.5rem;
+  margin-bottom: 1.2rem;
+  /* جعل الأيقونة متدرجة اللون (بدون لون ثابت) */
+  background: linear-gradient(135deg, #3b82f6, #60a5fa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* عنوان البطاقة */
+.card h3 {
+  font-size: 1.6rem;
+  margin-bottom: 1.2rem;
+  color: #1e3a8a; /* أزرق داكن يتناسق مع التصميم */
+}
+
+/* نص البطاقة */
+.card p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #334155; /* رمادي داكن سهل القراءة */
+}
+
+/* -------------------------------
+   تعديلات للهواتف (Mobile Responsiveness)
+   ------------------------------- */
+@media (max-width: 768px) {
+  /* جعل البطاقات تظهر واحدة تحت الأخرى */
+  .vision-mission {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  /* تقليل الحشو قليلًا لتناسب الشاشات الصغيرة */
+  .about-intro,
+  .card {
+    padding: 1.8rem;
+  }
+
+  /* تقليل حجم الخطوط قليلًا إن لزم */
+  .about-intro h1 {
+    font-size: 2rem;
+  }
+}

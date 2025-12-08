@@ -1,0 +1,395 @@
+/*campaigns.css*/
+/*  إعدادات عامة */
+body {
+  background: #f0f4f8;
+  color: #1e293b;
+  font-family: "Cairo", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  max-width: 1400px;
+  margin: 2rem auto;
+  padding: 0 20px;
+}
+
+/* زر إنشاء حملة */
+.btn-create {
+  background: linear-gradient(to right, #10b981, #059669);
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+/* شريط الفلترة */
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.filter-bar button {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 600;
+  background-color: #e2e8f0;
+  color: #1e293b;
+  transition: all 0.2s ease;
+}
+.filter-bar button.active,
+.filter-bar button:hover {
+  background-color: #3b82f6;
+  color: white;
+}
+
+/* شبكة البطاقات */
+.campaigns-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+/* بطاقة الحملة */
+.campaign-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+.campaign-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.1);
+}
+
+/* الصورة */
+.campaign-image {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+.campaign-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* الحالة */
+.status-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: white;
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* محتوى البطاقة */
+.campaign-content {
+  padding: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.campaign-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0;
+  color: #1e293b;
+}
+.campaign-info-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.9rem;
+  color: #475569;
+}
+.campaign-info-row span {
+  white-space: nowrap;
+}
+
+/* شريط التقدم */
+.progress-bar {
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 4px;
+  margin: 0.5rem 0 0.2rem 0;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--primary-color, #3b82f6);
+  border-radius: 4px;
+}
+.progress-text {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #475569;
+  margin-top: 0.2rem;
+}
+
+/* الأزرار */
+.card-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+/* أزرار عامة */
+.btn {
+  flex: 1;
+  padding: 8px 14px;
+  font-family: "Cairo", sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: none;
+}
+
+/* زر رئيسي */
+.btn-primary {
+  background: linear-gradient(to right, #3b82f6, #2563eb);
+  color: white;
+  border: none;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+.btn-primary:hover:not(.disabled) {
+  background: linear-gradient(to right, #2563eb, #1d4ed8);
+  transform: translateY(-2px);
+}
+
+/* الزر عند التعطيل */
+.btn-primary.disabled,
+.btn-primary:disabled {
+  background: #94a3b8 !important; /* رمادي */
+  color: #ffffff !important;
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+/* زر outline */
+.btn-outline {
+  background: transparent;
+  color: #3b82f6;
+  border: 1px solid #3b82f6;
+}
+.btn-outline:hover {
+  background: #3b82f6;
+  color: white;
+}
+
+/* أزرار الأدمن */
+.btn-admin-edit {
+  background-color: #3b82f6;
+  color: white;
+}
+.btn-admin-edit:hover {
+  background-color: #2563eb;
+}
+.btn-admin-delete {
+  background-color: #ef4444;
+  color: white;
+}
+.btn-admin-delete:hover {
+  background-color: #dc2626;
+}
+.btn-admin-details {
+  background-color: #fbbf24;
+  color: #1e293b;
+}
+.btn-admin-details:hover {
+  background-color: #f59e0b;
+}
+.btn-admin-share {
+  background-color: #6b7280;
+  color: white;
+}
+.btn-admin-share:hover {
+  background-color: #4b5563;
+}
+
+/* زر المشاركة دائري وأزرق */
+.btn-share {
+  background-color: #3b82f6;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  align-self: center;
+}
+.btn-share:hover {
+  background-color: #2563eb;
+}
+
+/* Modal */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.modal-close {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* المعلومات في المودال */
+.modal-info {
+  background: #f8fafc;
+  padding: 1rem;
+  border-radius: 12px;
+  margin: 0.8rem 0;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  border-left: 6px solid #3b82f6;
+}
+.modal-info-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.modal-info-row span {
+  white-space: nowrap;
+}
+
+.modal-desc {
+  line-height: 1.6;
+  margin: 1rem 0;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+/* زر التبرع في المودال */
+.modal-donate-btn {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+.modal-donate-btn .btn-primary {
+  padding: 10px 22px;
+  font-size: 1rem;
+  width: auto;
+}
+.modal-donate-btn .btn-primary.disabled,
+.modal-donate-btn .btn-primary:disabled {
+  background: #94a3b8 !important;
+  color: white !important;
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+/* أيقونات المشاركة في المودال */
+.share-icons {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  margin-top: 1rem;
+}
+.share-icons a,
+.share-icons button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  color: white;
+  background-color: #3b82f6;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  text-decoration: none;
+}
+.share-icons a[href*="wa.me"] {
+  background-color: #25D366;
+}
+.share-icons a[href*="facebook.com"] {
+  background-color: #1877f2;
+}
+.share-icons button {
+  background-color: #6b7280;
+}
+.share-icons a:hover,
+.share-icons button:hover {
+  transform: scale(1.1);
+  filter: brightness(1.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card-buttons {
+    flex-direction: column;
+  }
+  .filter-bar {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .campaign-info-row,
+  .modal-info-row {
+    flex-direction: column;
+  }
+}

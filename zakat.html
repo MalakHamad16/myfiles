@@ -1,0 +1,94 @@
+<!--zakat.html-->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>زكاة المال - GiveHope</title>
+
+    <!-- الخط الموحّد -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="casedetails.css" />
+    <link rel="stylesheet" href="zakat.css" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <div id="navbar-placeholder"></div>
+
+    <!-- Page Header -->
+    <section class="page-header">
+      <h1>زكاة المال</h1>
+      <p>
+        ﴿ خُذْ مِنْ أَمْوَالِهِمْ صَدَقَةً تُطَهِّرُهُمْ وَتُزَكِّيهِمْ بِهَا ﴾
+      </p>
+    </section>
+
+    <main>
+      <div class="hero-card">
+        <h1>إخراج الزكاة</h1>
+        <a href="DonateNow.html" class="btn">
+          <i class="fas fa-hand-holding-usd"></i> أخرج زكاتك الآن
+        </a>
+      </div>
+
+      <div class="calculator-box">
+        <h2>احسب زكاتك</h2>
+        <form id="zakatForm">
+          <!-- اختيار العملة -->
+          <div class="form-group">
+            <label for="currency">اختر العملة</label>
+            <select id="currency">
+              <option value="ILS" data-symbol="₪">شيكل</option>
+              <option value="USD" data-symbol="$">دولار</option>
+              <option value="JOD" data-symbol="د.أ">دينار أردني</option>
+              <option value="AED" data-symbol="د.إ">درهم إماراتي</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="cash">قيمة الأموال النقدية</label>
+            <input type="number" id="cash" placeholder="مثال: 10000" min="0" />
+          </div>
+          <div class="form-group">
+            <label for="gold">قيمة الذهب</label>
+            <input type="number" id="gold" placeholder="مثال: 5000" min="0" />
+          </div>
+          <div class="form-group">
+            <label for="silver">قيمة الفضة</label>
+            <input type="number" id="silver" placeholder="مثال: 2000" min="0" />
+          </div>
+          <div class="form-group">
+            <label for="investments">الاستثمارات والأسهم</label>
+            <input
+              type="number"
+              id="investments"
+              placeholder="مثال: 15000"
+              min="0"
+            />
+          </div>
+          <button type="submit" class="btn" style="width: 100%">
+            <i class="fas fa-calculator"></i> احسب الزكاة
+          </button>
+        </form>
+      </div>
+    </main>
+
+    <!-- بوكس النتيجة المنبثق -->
+    <div class="overlay" id="overlay"></div>
+    <div class="result-popup" id="resultPopup"></div>
+
+    <!-- Footer -->
+    <div id="footer-placeholder"></div>
+
+    <script src="zakat.js"></script>
+
+    <script src="loadChatbot.js"></script>
+  </body>
+</html>

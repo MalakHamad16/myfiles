@@ -1,0 +1,172 @@
+/* ==========================================
+   صفحة "زكاة المال" - GiveHope
+   ========================================== */
+
+/* -------------------------------
+   إعدادات عامة
+   ------------------------------- */
+body {
+  background: #f0f4f8;
+  color: #1e293b;
+  font-family: "Cairo", sans-serif;
+}
+
+main {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 20px;
+}
+
+/* -------------------------------
+   بطاقة البطل (الدعوة للزكاة)
+   ------------------------------- */
+.hero-card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 18px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.hero-card h1 {
+  color: #1e40af;
+  margin-bottom: 1rem;
+}
+
+/* -------------------------------
+   زر عام
+   ------------------------------- */
+.btn {
+  display: inline-block;
+  background: linear-gradient(to right, #3b82f6, #2563eb);
+  color: white;
+  border: none;
+  padding: 13px 30px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+  font-family: "Cairo", sans-serif;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.35);
+}
+
+/* -------------------------------
+   حاسبة الزكاة
+   ------------------------------- */
+.calculator-box {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 18px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.calculator-box h2 {
+  text-align: center;
+  color: #1e40af;
+  margin-bottom: 1.8rem;
+  font-size: 1.8rem;
+}
+
+.form-group {
+  margin-bottom: 1.4rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #1f2937;
+  text-align: right;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 1.05rem;
+  font-family: "Cairo", sans-serif;
+  background: #fafbff;
+  direction: rtl;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* -------------------------------
+   النتيجة المنبثقة
+   ------------------------------- */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: none;
+}
+
+.overlay.show {
+  display: block;
+}
+
+.result-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+  text-align: center;
+  max-width: 90%;
+  width: 400px;
+  display: none;
+}
+
+.result-popup.show {
+  display: block;
+}
+
+.result-popup h3 {
+  color: #1e40af;
+  margin-bottom: 1rem;
+}
+
+.total-amount {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #3b82f6;
+  margin: 1rem 0;
+}
+
+/* -------------------------------
+   الجوال
+   ------------------------------- */
+@media (max-width: 768px) {
+  .hero-card,
+  .calculator-box {
+    padding: 1.8rem;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 14px;
+  }
+}

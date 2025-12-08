@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>من نحن - GiveHope</title>
+    <!-- الخط الموحّد -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="casedetails.css" />
+    <link rel="stylesheet" href="about.css" />
+  </head>
+  <body>
+    <!---navbar-placeholder-->
+    <div id="navbar-placeholder"></div>
+
+    <!-- Page Header الموحّد -->
+    <section class="page-header">
+      <h1>من نحن</h1>
+      <p>﴿ وَتَعَاوَنُوا عَلَى الْبِرِّ وَالتَّقْوَىٰ ﴾</p>
+    </section>
+
+    <main>
+      <!-- المقدمة -->
+      <section class="about-intro">
+        <p>
+          منصة <strong>GiveHope</strong> منصة خيرية تهدف إلى مساعدة المحتاجين
+          وبناء مستقبل أفضل للمجتمع عبر توفير حلول مستدامة وتقديم المساعدات
+          العاجلة.
+        </p>
+        <p>
+          نؤمن أن كل تبرع، مهما كان صغيرًا، يمكن أن يصنع فرقًا كبيرًا في حياة
+          إنسان. ولهذا نعمل جاهدين لربط المحسنين بالمستفيدين بطريقة سهلة، آمنة،
+          وموثوقة.
+        </p>
+        <p>
+          نرحب بك شريكًا في هذا الطريق، سواء كنت متبرعًا، متطوعًا، أو حتى ناقلًا
+          للخير. معًا، نصنع أملًا جديدًا كل يوم.
+        </p>
+      </section>
+
+      <!-- بطاقات الرؤية والرسالة -->
+      <section class="vision-mission">
+        <div class="card vision">
+          <i class="fas fa-eye"></i>
+          <h3>رؤيتنا</h3>
+          <p>
+            خلق عالمٍ يسوده العدل والمساواة والتكافل، حيث تُلبى احتياجات كل
+            محتاج، وتُزرع قيم العطاء والمحبة، ويستند التعاون لتجاوز الصعوبات
+            وبناء مجتمعات أقوى وأكثر تماسكاً.
+          </p>
+        </div>
+
+        <div class="card mission">
+          <i class="fas fa-bullseye"></i>
+          <h3>رسالتنا</h3>
+          <p>
+            تمكين المجتمعات المحتاجة عبر دعم مستدام ومبادرات إنسانية فعّالة.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <div id="footer-placeholder"></div>
+
+    <!-- تحميل Navbar و Footer -->
+    <script>
+      function loadHTML(id, file) {
+        fetch(file)
+          .then((res) => res.text())
+          .then((html) => (document.getElementById(id).innerHTML = html))
+          .catch((err) => console.error("خطأ في تحميل", file, err));
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        loadHTML("navbar-placeholder", "navbar.html");
+        loadHTML("footer-placeholder", "footer.html");
+      });
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const check = setInterval(() => {
+          const toggle = document.getElementById("menuToggle");
+          const nav = document.getElementById("navLinks");
+          if (toggle && nav) {
+            clearInterval(check);
+            toggle.onclick = (e) => {
+              e.stopPropagation();
+              nav.classList.toggle("active");
+            };
+            document.onclick = (e) => {
+              if (!e.target.closest(".navbar")) {
+                nav.classList.remove("active");
+                document
+                  .querySelectorAll(".dropdown")
+                  .forEach((d) => d.classList.remove("active"));
+              }
+            };
+            nav.onclick = (e) => e.stopPropagation();
+            document.querySelectorAll(".dropdown-toggle").forEach((btn) => {
+              btn.onclick = (e) => {
+                if (window.innerWidth <= 992) {
+                  e.preventDefault();
+                  const dropdown = btn.parentElement;
+                  dropdown.classList.toggle("active");
+                  document.querySelectorAll(".dropdown").forEach((d) => {
+                    if (d !== dropdown) d.classList.remove("active");
+                  });
+                }
+              };
+            });
+            window.onresize = () => {
+              if (window.innerWidth > 992) {
+                nav.classList.remove("active");
+                document
+                  .querySelectorAll(".dropdown")
+                  .forEach((d) => d.classList.remove("active"));
+              }
+            };
+          }
+        }, 100);
+      });
+    </script>
+    <script>
+      //    chatbot 'about'
+      window.pageType = "about";
+    </script>
+    <script src="loadChatbot.js"></script>
+  </body>
+</html>

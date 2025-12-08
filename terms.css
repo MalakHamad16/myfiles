@@ -1,0 +1,125 @@
+/* ==========================================
+   صفحة "الشروط والسياسات" - GiveHope
+   ========================================== */
+
+/* -------------------------------
+   إعدادات عامة
+   ------------------------------- */
+body {
+  background: linear-gradient(135deg, #f0f7ff, #e6f0ff);
+  color: #1e293b;
+  min-height: 100vh;
+  margin: 0;
+  font-family: "Cairo", sans-serif;
+}
+
+main {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 0 20px;
+}
+
+/* -------------------------------
+   محتوى السياسات
+   ------------------------------- */
+.policy-content {
+  background: white;
+  padding: 2.8rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  line-height: 1.9;
+  font-size: 1.05rem;
+  color: #1f2937;
+}
+
+.policy-content h1 {
+  text-align: center;
+  color: #1e40af;
+  font-size: 2.4rem;
+  margin-bottom: 2.5rem;
+  font-weight: 700;
+}
+
+/* أقسام السياسات */
+.policy-section {
+  margin-bottom: 2.2rem;
+  padding-bottom: 1.8rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.policy-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.policy-section h2 {
+  color: #3b82f6;
+  font-size: 1.6rem;
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.policy-section h2 i {
+  color: #1e40af;
+}
+
+.policy-section h3 {
+  margin: 1.2rem 0 0.8rem;
+  color: #1e3a8a;
+  font-size: 1.3rem;
+}
+
+.policy-section p {
+  margin-bottom: 1rem;
+  text-align: justify;
+}
+
+.policy-section ul {
+  padding-right: 1.5rem; /* مهم للـ RTL */
+  margin: 1rem 0;
+}
+
+.policy-section ul li {
+  margin-bottom: 0.6rem;
+  list-style-type: disc;
+}
+
+/* مربع تمييز (لأجزاء مهمة) */
+.highlight {
+  background: #f0f9ff;
+  padding: 1rem;
+  border-radius: 10px;
+  border-right: 3px solid #3b82f6;
+  margin: 1.2rem 0;
+  font-style: italic;
+}
+
+/* روابط */
+a {
+  color: #3b82f6;
+  text-decoration: underline;
+}
+
+/* -------------------------------
+   استجابة الجوال
+   ------------------------------- */
+@media (max-width: 768px) {
+  .policy-content {
+    padding: 1.8rem;
+  }
+
+  .policy-content h1 {
+    font-size: 2rem;
+  }
+
+  .policy-section h2 {
+    font-size: 1.4rem;
+  }
+
+  .policy-section h3 {
+    font-size: 1.2rem;
+  }
+}

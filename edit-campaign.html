@@ -1,0 +1,168 @@
+<!--edit-campaign.html-->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تعديل الحملة - GiveHope</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="casedetails.css" />
+    <link rel="stylesheet" href="create-campaign.css" />
+  </head>
+  <body>
+    <div id="navbar-placeholder"></div>
+
+    <section class="page-header">
+      <h1>تعديل الحملة</h1>
+      <p>﴿ إِنَّ اللَّهَ يُحِبُّ الْمُحْسِنِينَ ﴾</p>
+    </section>
+
+    <main>
+      <div class="form-box">
+        <h1>عدّل تفاصيل حملتك</h1>
+        <form id="editForm">
+          
+          <!-- رقم الحملة -->
+          <div class="form-group">
+            <label for="campaignCode">رمز الحملة</label>
+            <input type="text" id="campaignCode" readonly />
+          </div>
+
+          <!-- اسم الحملة -->
+          <div class="form-group">
+            <label for="title">اسم الحملة</label>
+            <input type="text" id="title" required />
+          </div>
+
+          <!-- الهدف المالي -->
+          <div class="form-group">
+            <label for="goal">الهدف المالي</label>
+            <div class="amount-currency">
+              <input type="number" id="goal" min="1" required />
+              <select id="currency" class="currency-select">
+                <option value="ILS">₪ شيكل</option>
+                <option value="USD">$ دولار</option>
+                <option value="JOD">د.أ دينار</option>
+                <option value="AED">د.إ درهم</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- تاريخ البداية والنهاية -->
+          <div class="form-group">
+            <label>فترة الحملة</label>
+            <div class="date-range">
+              <input type="date" id="startDate" required />
+              <span>إلى</span>
+              <input type="date" id="endDate" required />
+            </div>
+          </div>
+
+          <!-- المدة -->
+          <div class="form-group">
+            <label for="calculatedDuration">المدة</label>
+            <input type="text" id="calculatedDuration" readonly />
+          </div>
+
+          <!-- الحالة (عرض فقط) -->
+          <div class="form-group">
+            <label for="statusDisplay">حالة الحملة</label>
+            <input type="text" id="statusDisplay" readonly style="padding:8px;border-radius:5px;border:1px solid #ccc;width:100%;" />
+          </div>
+
+          <!-- سؤال تعليق الحملة -->
+          <div class="form-group" style="display:flex; align-items:center; gap:15px; margin-top:10px;">
+            <label style="margin:0; font-weight:600;">هل تريد تعليق الحملة مؤقتًا؟</label>
+            <div style="display:flex; gap:10px;">
+              <button type="button" id="pauseYes" class="pause-btn" data-value="true"
+                style="background-color: #f59e0b; color: white; border:none; padding:6px 16px; border-radius:5px; cursor:pointer; font-weight:600; transition: 0.2s;"
+                onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">نعم</button>
+
+              <button type="button" id="pauseNo" class="pause-btn" data-value="false"
+                style="background-color: #4ecdc4; color: white; border:none; padding:6px 16px; border-radius:5px; cursor:pointer; font-weight:600; transition: 0.2s;"
+                onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">لا</button>
+            </div>
+          </div>
+
+          <!-- الوصف -->
+          <div class="form-group">
+            <label for="description">الوصف</label>
+            <textarea id="description" required></textarea>
+          </div>
+
+          <!-- صورة الحملة -->
+          <div class="form-group">
+            <label for="image">صورة الحملة (اختياري)</label>
+            <input type="file" id="image" accept="image/*" />
+            <div class="preview-image" id="imagePreview">
+              <i class="fas fa-image"></i>
+            </div>
+          </div>
+
+          <!-- الأزرار -->
+          <div class="form-actions">
+            <button type="button" id="cancelBtn" class="btn btn-cancel">
+              <i class="fas fa-times"></i> إلغاء التعديل
+            </button>
+            <button type="submit" class="btn btn-save">
+              <i class="fas fa-save"></i> حفظ التعديل
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div class="success-message" id="successMsg">تم حفظ التعديلات بنجاح!</div>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <!-- تحميل المكونات المشتركة -->
+    <script>
+      function loadHTML(id, file) {
+        fetch(file)
+          .then((res) => res.text())
+          .then((html) => (document.getElementById(id).innerHTML = html))
+          .catch((err) => console.error("خطأ في تحميل", file, err));
+      }
+      document.addEventListener("DOMContentLoaded", () => {
+        loadHTML("navbar-placeholder", "navbar.html");
+        loadHTML("footer-placeholder", "footer.html");
+      });
+    </script>
+
+    <!-- تفعيل القوائم -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const check = setInterval(() => {
+          const toggle = document.getElementById("menuToggle");
+          const nav = document.getElementById("navLinks");
+          if (toggle && nav) {
+            clearInterval(check);
+            toggle.onclick = (e) => {
+              e.stopPropagation();
+              nav.classList.toggle("active");
+            };
+            document.onclick = (e) => {
+              if (!e.target.closest(".navbar")) {
+                nav.classList.remove("active");
+                document
+                  .querySelectorAll(".dropdown")
+                  .forEach((d) => d.classList.remove("active"));
+              }
+            };
+            nav.onclick = (e) => e.stopPropagation();
+          }
+        }, 100);
+      });
+    </script>
+
+    <script src="edit-campaign.js"></script>
+  </body>
+</html>
