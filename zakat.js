@@ -7,11 +7,9 @@ async function loadHTML(file, elementId) {
     const data = await response.text();
     const container = document.getElementById(elementId);
     container.innerHTML = data;
-
     if (file === "navbar.html") {
       initNavbar();
     }
-
     return true;
   } catch (error) {
     console.error("Error loading HTML:", error);
@@ -22,7 +20,6 @@ async function loadHTML(file, elementId) {
 function initNavbar() {
   const menuToggle = document.getElementById("menuToggle");
   const navLinks = document.getElementById("navLinks");
-
   if (!menuToggle || !navLinks) return;
 
   menuToggle.addEventListener("click", function (e) {
@@ -67,6 +64,12 @@ function initNavbar() {
   });
 }
 
+//  دالة التحقق من تسجيل الدخول
+function isUserLoggedIn() {
+  const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+  return !!token;
+}
+
 // متغير لتخزين أسعار الزكاة
 let zakatRates = null;
 
@@ -77,7 +80,6 @@ async function fetchZakatRates() {
     if (res.ok) {
       zakatRates = await res.json();
     } else {
-      // استخدام قيم افتراضية في حال الفشل
       zakatRates = { goldPerGram: 300, silverPerGram: 4, baseCurrency: 'ILS' };
     }
   } catch (error) {
@@ -92,14 +94,39 @@ function getCurrencySymbol(code) {
   return symbols[code] || '₪';
 }
 
+// تحديث حالة الزر في .hero-card بعد تحميل الصفحة
+function updateHeroButton() {
+  const heroBtn = document.querySelector('.hero-card .btn');
+  if (!heroBtn) return;
+
+  if (isUserLoggedIn()) {
+    heroBtn.disabled = false;
+    heroBtn.classList.remove('btn-disabled');
+    heroBtn.title = '';
+    heroBtn.href = "DonateNow.html";
+  } else {
+    heroBtn.disabled = true;
+    heroBtn.classList.add('btn-disabled');
+    heroBtn.title = "يرجى تسجيل الدخول أولاً";
+    heroBtn.removeAttribute('href');
+    heroBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.location.href = 'login.html'; //  تحويل مباشر
+    });
+  }
+}
+
 // سكريبت حساب الزكاة
 document.addEventListener("DOMContentLoaded", async () => {
   // تحميل navbar وfooter
-  loadHTML("navbar.html", "navbar-placeholder");
-  loadHTML("footer.html", "footer-placeholder");
+  await loadHTML("navbar.html", "navbar-placeholder");
+  await loadHTML("footer.html", "footer-placeholder");
 
   // جلب أسعار الزكاة
   await fetchZakatRates();
+
+  // تحديث زر البطل
+  updateHeroButton();
 
   const form = document.getElementById("zakatForm");
   const overlay = document.getElementById("overlay");
@@ -108,7 +135,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   form?.addEventListener("submit", (e) => {
     e.preventDefault();
-
     if (!zakatRates) {
       alert('لم يتم تحميل أسعار الزكاة بعد. يرجى المحاولة لاحقًا.');
       return;
@@ -122,12 +148,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     const silverGrams = parseFloat(document.getElementById("silver").value) || 0;
     const investments = parseFloat(document.getElementById("investments").value) || 0;
 
-    // حساب القيم بالعملة الأساسية (ILS)
     const goldValue = goldGrams * zakatRates.goldPerGram;
     const silverValue = silverGrams * zakatRates.silverPerGram;
     const totalInBase = cash + goldValue + silverValue + investments;
 
-    // النصاب = 85 جرام ذهب
     const nisab = 85 * zakatRates.goldPerGram;
 
     let resultHTML = "";
@@ -143,13 +167,27 @@ document.addEventListener("DOMContentLoaded", async () => {
       `;
     } else {
       const zakatAmount = totalInBase * 0.025;
+
+      let payButtonHTML = '';
+      if (isUserLoggedIn()) {
+        payButtonHTML = `
+          <a href="DonateNow.html?type=zakat&amount=${zakatAmount.toFixed(2)}" class="btn" style="margin-top: 1rem; display: inline-block;">
+            <i class="fas fa-check-circle"></i> ادفع زكاتك الآن
+          </a>
+        `;
+      } else {
+        payButtonHTML = `
+          <button class="btn btn-disabled" style="margin-top: 1rem; display: inline-block;" disabled>
+            <i class="fas fa-lock"></i> سجّل الدخول أولاً
+          </button>
+        `;
+      }
+
       resultHTML = `
         <h3>إجمالي الزكاة المستحقة</h3>
         <p>المبلغ الذي أدخلته: <strong>${currencySymbol}${totalInBase.toFixed(2)}</strong></p>
         <p>مبلغ الزكاة (2.5%): <strong>${currencySymbol}${zakatAmount.toFixed(2)}</strong></p>
-        <a href="DonateNow.html?type=zakat&amount=${zakatAmount.toFixed(2)}" class="btn" style="margin-top: 1rem; display: inline-block;">
-          <i class="fas fa-check-circle"></i> ادفع زكاتك الآن
-        </a>
+        ${payButtonHTML}
       `;
     }
 
@@ -157,8 +195,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     overlay.classList.add("show");
     popup.classList.add("show");
 
-    // إعادة تعيين النموذج بعد الحساب
     form.reset();
+
+    // عند النقر على الزر المعطل في النتيجة — تحويل مباشر 
+    if (!isUserLoggedIn()) {
+      const disabledBtn = popup.querySelector('.btn-disabled');
+      if (disabledBtn) {
+        disabledBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          window.location.href = 'login.html';
+        });
+      }
+    }
   });
 
   overlay?.addEventListener("click", () => {
@@ -167,5 +215,5 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 });
 
-// تحديد نوع الصفحة قبل تحميل الشات بوت
+// تحديد نوع الصفحة
 window.pageType = "zakat";

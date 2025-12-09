@@ -156,6 +156,21 @@ main {
   margin: 1rem 0;
 }
 
+.btn-disabled {
+  background: #b1acac !important;              /* رمادي */
+  color: #ffffff !important;                   /* نص رمادي غامق */
+  border: 1px solid #aaaaaa !important;
+  cursor: not-allowed !important;
+  opacity: 1 !important;
+  pointer-events: auto;                        /* للسماح بالـ click للتحويل */
+  box-shadow: none !important;
+}
+.btn-disabled:hover {
+  background: #bbbbbb !important;             
+  transform: none !important;
+  box-shadow: none !important;
+}
+
 /* -------------------------------
    الجوال
    ------------------------------- */
