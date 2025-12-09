@@ -68,10 +68,6 @@ function displayCase(caseItem) {
   document.getElementById("duration").textContent = caseItem.durationLabel;
   document.getElementById("city").textContent = caseItem.city;
   
-  const beneficiaryText = 
-    caseItem.beneficiaryCount === 1 ? "مستفيد واحد" : `${caseItem.beneficiaryCount} مستفيدين`;
-  document.getElementById("beneficiaryCount").textContent = beneficiaryText;
-  
   document.getElementById("endDate").textContent = 
     new Date(caseItem.preferredSponsorshipDeadline)
       .toLocaleDateString("ar-EG", { day: "numeric", month: "long", year: "numeric" });

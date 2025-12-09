@@ -37,7 +37,6 @@ exports.createSponsorship = async (req, res) => {
       periodLabel,
       durationLabel,
       preferredSponsorshipDeadline,
-      beneficiaryCount,
       shortDescription,
       totalPeriods
     } = req.body;
@@ -72,7 +71,6 @@ exports.createSponsorship = async (req, res) => {
     const deadline = new Date(preferredSponsorshipDeadline);
     if (isNaN(deadline.getTime())) return res.status(400).json({ success: false, message: 'تاريخ التفضيل غير صالح' });
     if (deadline < new Date()) return res.status(400).json({ success: false, message: 'لا يمكن تحديد تاريخ تفضيل في الماضي' });
-    if (!Number.isInteger(beneficiaryCount) || beneficiaryCount < 1) return res.status(400).json({ success: false, message: 'عدد المستفيدين ≥ 1' });
     if (!shortDescription || shortDescription.trim() === '' || shortDescription.length > 500) return res.status(400).json({ success: false, message: 'الوصف المبسط مطلوب (≤500 حرف)' });
     if (totalPeriods == null || !Number.isInteger(totalPeriods) || totalPeriods < 1) return res.status(400).json({ success: false, message: 'عدد الفترات الكلي ≥ 1' });
 
@@ -94,7 +92,6 @@ exports.createSponsorship = async (req, res) => {
       periodLabel,
       durationLabel,
       preferredSponsorshipDeadline: deadline,
-      beneficiaryCount,
       shortDescription: shortDescription.trim(),
       urgencyLevel,
       totalPeriods,
@@ -119,7 +116,6 @@ exports.createSponsorship = async (req, res) => {
         periodLabel: newSponsorship.periodLabel,
         durationLabel: newSponsorship.durationLabel,
         preferredSponsorshipDeadline: newSponsorship.preferredSponsorshipDeadline,
-        beneficiaryCount: newSponsorship.beneficiaryCount,
         shortDescription: newSponsorship.shortDescription,
         urgencyLevel: newSponsorship.urgencyLevel,
         totalPeriods: newSponsorship.totalPeriods,
@@ -140,7 +136,7 @@ exports.getAllSponsorships = async (req, res) => {
     let sponsorships = await Sponsorship.find({})
       .select(
         'caseId firstName city type amountPerPeriod periodLabel durationLabel ' +
-        'preferredSponsorshipDeadline beneficiaryCount shortDescription ' +
+        'preferredSponsorshipDeadline shortDescription ' +
         'urgencyLevel totalPeriods paidPeriods status createdAt'
       );
 
@@ -181,7 +177,7 @@ exports.getSponsorshipById = async (req, res) => {
     const sponsorship = await Sponsorship.findById(id)
       .select(
         'caseId firstName city type amountPerPeriod periodLabel durationLabel ' +
-        'preferredSponsorshipDeadline beneficiaryCount shortDescription ' +
+        'preferredSponsorshipDeadline shortDescription ' +
         'urgencyLevel totalPeriods paidPeriods status createdAt'
       );
     if (!sponsorship) return res.status(404).json({ success: false, message: 'الكفالة غير موجودة' });
