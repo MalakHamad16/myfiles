@@ -33,6 +33,23 @@
         </a>
       </div>
 
+       <!--  شريط البحث —  -->
+      <div class="search-bar">
+        <div class="search-input-wrapper">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="ابحث باسم الحملة أو رقمها (مثل ABC123)"
+          />
+          <button id="clearSearch" title="مسح البحث" aria-label="مسح البحث">
+            ×
+          </button>
+          <button id="searchButton" class="search-icon-btn" title="بحث">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+
       <!-- شريط الفلترة -->
       <div id="filterBar"></div>
 
@@ -44,7 +61,7 @@
 
       <!-- الحملات المنتهية -->
       <div class="campaigns-grid" id="endedCampaigns"></div>
-      
+
       <!-- الحملات المعلقة -->
       <div class="campaigns-grid" id="pendingCampaigns"></div>
 
