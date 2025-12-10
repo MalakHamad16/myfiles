@@ -198,7 +198,17 @@ main {
   pointer-events: none;
   opacity: 0.8;
 }
-
+.btn-login-prompt {
+  background: #94a3b8;
+  color: white;
+  cursor: pointer;
+  opacity: 0.85;
+}
+.btn-login-prompt:hover {
+  opacity: 1;
+  background: #64748b;
+  transform: none;
+}
 /* زر outline */
 .btn-outline {
   background: transparent;

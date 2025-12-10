@@ -142,10 +142,10 @@ function createCampaignCard(camp) {
       `;
     } else {
       buttonsHtml = `
-        <button class="btn btn-primary disabled" disabled>${isLoggedIn ? 'غير متاح' : 'سجّل دخولك أولًا'}</button>
-        <button class="btn btn-outline" onclick="showDetails('${camp.id}')">عرض التفاصيل</button>
-        <button class="btn-share" onclick="shareCampaign('${camp.id}')"><i class="fas fa-share-alt"></i></button>
-      `;
+  <button class="btn btn-login-prompt">${isLoggedIn ? 'غير متاح' : 'سجّل دخولك أولًا'}</button>
+  <button class="btn btn-outline" onclick="showDetails('${camp.id}')">عرض التفاصيل</button>
+  <button class="btn-share" onclick="shareCampaign('${camp.id}')"><i class="fas fa-share-alt"></i></button>
+`;
     }
   }
 
@@ -303,8 +303,7 @@ function showDetails(id) {
     } else if (isLoggedIn && isDonatable) {
       btnContainer.innerHTML = `<a href="DonateNow.html?type=donation&campaign=${camp.id}" class="btn btn-primary">تبرع الآن</a>`;
     } else {
-      btnContainer.innerHTML = `<button class="btn btn-primary disabled" disabled>${isLoggedIn ? 'غير متاح' : 'سجّل دخولك أولًا'}</button>`;
-    }
+btnContainer.innerHTML = `<button class="btn btn-login-prompt">${isLoggedIn ? 'غير متاح' : 'سجّل دخولك أولًا'}</button>`;    }
   }
 
   document.getElementById('detailModal').style.display = 'flex';
@@ -386,4 +385,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   
-});
+},
+// ربط أزرار "سجّل دخولك أولًا" بالتوجيه لصفحة تسجيل الدخول
+document.addEventListener('click', (e) => {
+  if (e.target.classList.contains('btn-login-prompt')) {
+    e.preventDefault();
+    window.location.href = 'login.html';
+  }
+})
+);

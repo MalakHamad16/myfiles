@@ -98,9 +98,9 @@ function renderCases(filter) {
       <i class="fas fa-hands-helping"></i> اكفل الآن
     </a>`;
       } else {
-        sponsorBtn = `<button class="btn btn-primary disabled" disabled>
-  سجّل دخولك أولًا      
-    </button>`;
+        sponsorBtn = `<a href="login.html" class="btn btn-login-prompt">
+ سجّل دخولك أولًا
+</a>`;
       }
     }
 

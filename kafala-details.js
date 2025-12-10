@@ -130,15 +130,17 @@ function displayCase(caseItem) {
   // غير مكفولة → يُفعّل فقط للمستخدم المسجّل
   if (currentUser && currentUser.id) {
     sponsorLink.href = `DonateNow.html?type=sponsor&id=${caseItem._id}`;
-    sponsorLink.classList.remove("disabled");
+    sponsorLink.classList.remove("disabled", "btn-login-prompt");
     sponsorLink.style.opacity = "1";
-    sponsorLink.style.pointerEvents = "auto";
+    sponsorLink.style.cursor = "pointer";
     sponsorLink.innerHTML = '<i class="fas fa-hands-helping"></i> اكفل الآن';
   } else {
-    sponsorLink.classList.add("disabled");
-    sponsorLink.style.opacity = "0.6";
-    sponsorLink.style.pointerEvents = "none";
-    sponsorLink.href = "javascript:void(0)";
+    // زائر: زر "تسجيل دخول" قابل للنقر
+    sponsorLink.href = "login.html"; // أو أي رابط تفضله
+    sponsorLink.classList.add("btn-login-prompt");
+    sponsorLink.classList.remove("disabled");
+    sponsorLink.style.opacity = "0.85";
+    sponsorLink.style.cursor = "pointer";
     sponsorLink.innerHTML = '<i class="fas fa-lock"></i> سجّل دخولك أولًا';
   }
 }
