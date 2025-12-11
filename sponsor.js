@@ -1,4 +1,5 @@
-// sponsor.js — مُحدّث
+// sponsor.js
+
 let casesData = [];
 
 function getCurrentUser() {
@@ -42,10 +43,11 @@ function renderCases(filter) {
   container.innerHTML = "";
 
   let filtered =
-    filter === "all" ? casesData : casesData.filter((c) => c.type === filter);
+    filter === "all"
+      ? casesData
+      : casesData.filter((c) => c.type === filter);
 
-  //  الترتيب مُفعّل في الباكند — لا حاجة لتكراره هنا
-  // لكن للتأكد، نستخدم نفس المنطق:
+  // الترتيب 
   const urgencyOrder = { critical: 1, high: 2, medium: 3, low: 4 };
   filtered.sort((a, b) => {
     const statusOrder = {
@@ -71,7 +73,7 @@ function renderCases(filter) {
     const isFully = caseItem.status === "fully sponsored";
     const isPartial = caseItem.status === "partially sponsored";
 
-    //  زر "اكفل الآن" حسب الحالة والكفيل
+    // زر الاكتراث 
     let sponsorBtn;
     if (isFully) {
       sponsorBtn = `<button class="btn btn-success disabled" disabled>
@@ -92,7 +94,6 @@ function renderCases(filter) {
     </button>`;
       }
     } else {
-      // غير مكفولة → مفتوحة للجميع *إذا كان له حساب*
       if (currentUser && currentUser.id) {
         sponsorBtn = `<a href="DonateNow.html?type=sponsor&id=${caseItem._id}" class="btn btn-primary">
       <i class="fas fa-hands-helping"></i> اكفل الآن
@@ -105,17 +106,22 @@ function renderCases(filter) {
     }
 
     // ختم الحالة
-    const badge = isFully
-      ? `<div class="status-badge fully-sponsored"><span>مكفولة بنجاح</span></div>`
-      : isPartial
-      ? `<div class="status-badge partially-sponsored"><span>مكفولة جزئياً</span></div>`
-      : "";
+    const badge =
+      caseItem.status === "fully sponsored"
+        ? `<div class="status-badge fully-sponsored"><span>مكفولة بنجاح</span></div>`
+        : caseItem.status === "partially sponsored"
+        ? `<div class="status-badge partially-sponsored"><span>مكفولة جزئياً</span></div>`
+        : "";
 
-    //  عرض المبلغ كـ "100 ₪/شهريًا"
+    // عرض المبلغ
     const amountTag = `${caseItem.amountPerPeriod} ₪/${caseItem.periodLabel}`;
 
+    //  إنشاء البطاقة مع دعم البحث (data attributes)
     const card = document.createElement("div");
-    card.className = "col-12 col-md-6 col-lg-4";
+    card.className = "col-12 col-md-6 col-lg-4 sponsor-card-wrapper";
+    //  مهم: إضافة البيانات المطلوبة للبحث (caseId و firstName)
+    card.dataset.caseId = caseItem.caseId?.toLowerCase() || "";
+    card.dataset.firstName = caseItem.firstName?.toLowerCase() || "";
 
     card.innerHTML = `
       <div class="sponsor-card">
@@ -133,15 +139,11 @@ function renderCases(filter) {
             </div>
           </div>
           <div class="card-actions">
-            <a href="kafala-details.html?id=${
-              caseItem._id
-            }" class="btn btn-outline-primary">
+            <a href="kafala-details.html?id=${caseItem._id}" class="btn btn-outline-primary">
               عرض التفاصيل
             </a>
             ${sponsorBtn}
-            <button class="btn-share" onclick="shareSponsorship('${
-              caseItem._id
-            }')">
+            <button class="btn-share" onclick="shareSponsorship('${caseItem._id}')">
               <i class="fas fa-share-alt"></i>
             </button>
           </div>
@@ -190,4 +192,173 @@ document.addEventListener("DOMContentLoaded", () => {
       loadCasesFromAPI(btn.dataset.filter);
     });
   });
+});
+
+/* 
+   ===========================================================
+    خاصية البحث 
+   ===========================================================
+   المطلوب:
+     1. البحث برقم الحالة (مثل ORP001) → نتيجة واحدة، تظليل مباشر.
+     2. البحث باسم فقط (مثل "زياد") → تظليل جميع التطابقات + scroll لأول واحدة + رسالة: " يُفضّل إضافة الرقم".
+     3. البحث باسم + رقم (مثل "زياد ORP001") → يُعامل كرقم (نتيجة واحدة).
+     4. الرسائل تظهر لمدة ثانيتين فقط.
+     5. التظليل ثابت (بنفسجي شفاف) على <div class="sponsor-card"> مباشرةً.
+   ===========================================================
+*/
+let searchTimeout = null;
+
+// دالة مساعدة: عرض Toast مؤقت (يظهر فوق شريط البحث)
+function showTemporaryToast(message, duration = 2000) {
+  const toast = document.createElement("div");
+  toast.className = "toast";
+  toast.textContent = message;
+  document.body.appendChild(toast);
+
+  //  وضع.Toast مباشرة فوق شريط البحث
+  const searchBar = document.querySelector(".search-bar");
+  if (searchBar) {
+    const rect = searchBar.getBoundingClientRect();
+    toast.style.top = `${rect.top - 50}px`; // 50px = ارتفاع Toast + مسافة
+  }
+
+  // إظهار فوري
+  toast.classList.add("show");
+
+  //  إخفاء بعد المدة المحددة (2000 مللي ثانية = ثانيتان)
+  setTimeout(() => {
+    toast.classList.remove("show");
+    // إزالة بعد انتهاء الانتقال
+    setTimeout(() => {
+      if (toast.parentNode) toast.remove();
+    }, 300); // يساوي transition-duration في CSS
+  }, duration);
+}
+
+// الدالة الأساسية للبحث
+function performSearchForSponsorships() {
+  //  1. جلب قيمة البحث
+  const searchInput = document.getElementById("searchInput");
+  const rawTerm = searchInput ? searchInput.value.trim() : "";
+  const searchTerm = rawTerm.toLowerCase();
+
+  //  2. تنظيف أولي: إزالة تظليل البحث من جميع البطاقات
+  document.querySelectorAll(".sponsor-card-wrapper").forEach((card) => {
+    const sponsorCard = card.querySelector(".sponsor-card"); //  نستهدف البطاقة الداخلية
+    if (sponsorCard) sponsorCard.classList.remove("highlight");
+  });
+
+  // 🧹 3. إزالة أي Toast سابق
+  document.querySelectorAll(".toast").forEach((t) => t.remove());
+
+  //  4. إذا كان الحقل فارغًا → خروج مبكر (لا بحث)
+  if (!searchTerm) return;
+
+  //  5. كشف: هل يحتوي المُدخل على رقم كفالة؟ (مثل ORP001)
+  //    نستخدم تعبيرًا نمطيًّا: 3 أحرف كبيرة + 3 أرقام
+  const caseIdPattern = /[A-Z]{3}\d{3}/i;
+  const match = searchTerm.match(caseIdPattern);
+  const hasCaseId = !!match;
+  const extractedCaseId = hasCaseId ? match[0].toLowerCase() : null;
+
+  //  6. جلب جميع بطاقات الكفالات (من DOM — لأنها مبنية مسبقًا)
+  const cards = document.querySelectorAll(".sponsor-card-wrapper");
+  let matchedCards = []; // لتخزين البطاقات المطابقة (للاستخدام في التمرير)
+
+  // 🔎 7. التكرار على البطاقات وتحديد المطابقات
+  cards.forEach((card) => {
+    const caseId = card.dataset.caseId || ""; // من renderCases
+    const firstName = card.dataset.firstName || ""; // من renderCases
+    const sponsorCard = card.querySelector(".sponsor-card");
+
+    if (!sponsorCard) return; // تأمين
+
+    let shouldHighlight = false;
+
+    //  أولوية للرقم: إذا وُجد رقم في المُدخل، نبحث فقط به
+    if (hasCaseId) {
+      if (caseId.includes(extractedCaseId)) {
+        shouldHighlight = true;
+      }
+    } 
+    //  إذا لم يُدخل رقمًا → نبحث بالاسم فقط
+    else {
+      if (firstName.includes(searchTerm)) {
+        shouldHighlight = true;
+      }
+    }
+
+    //  تطبيق التظليل (ثابت — لا يعتمد على animation)
+    if (shouldHighlight) {
+      sponsorCard.classList.add("highlight"); // ← يُفعّل ::before في sponsor.css
+      matchedCards.push(card);
+    }
+  });
+
+  //  8. هل وُجدت نتائج؟
+  const foundAny = matchedCards.length > 0;
+
+  //  9. التمرير إلى أول نتيجة — فقط إذا وُجدت نتائج
+  if (foundAny) {
+    const firstMatch = matchedCards[0];
+    // ✅ التمرير السلس (يظهر أول بطاقة مطابقة في وسط الشاشة تقريبًا)
+    firstMatch.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+
+  //  10. عرض الرسائل (بعد التمرير — لتجربة مستخدم أفضل)
+
+  //  حالة: لا توجد نتائج
+  if (!foundAny) {
+    showTemporaryToast("❌ لا توجد كفالات تطابق بحثك.", 2000);
+    return; // ننهي هنا
+  }
+
+  // 💡 حالة: بحث باسم فقط (بدون رقم) — نعرض رسالة توجيهية
+  if (!hasCaseId) {
+    showTemporaryToast("💡 يُفضّل إضافة الرقم لنتائج أفضل.", 2000);
+  }
+
+  //  ملاحظة: إذا كان البحث برقم → لا تظهر أي رسالة (حتى لو وُجدت نتائج)
+}
+
+//  ربط أحداث البحث (يُفعّل performSearchForSponsorships)
+document.addEventListener("DOMContentLoaded", () => {
+  const searchInput = document.getElementById("searchInput");
+  const clearBtn = document.getElementById("clearSearch");
+  const searchBtn = document.getElementById("searchButton");
+
+  //  عند الكتابة (مع debounce لتحسين الأداء)
+  if (searchInput) {
+    searchInput.addEventListener("input", () => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(performSearchForSponsorships, 300);
+    });
+
+    //  دعم Enter في لوحة المفاتيح
+    searchInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        performSearchForSponsorships();
+      }
+    });
+  }
+
+  //  عند النقر على زر المسح (×)
+  if (clearBtn) {
+    clearBtn.addEventListener("click", () => {
+      if (searchInput) {
+        searchInput.value = "";
+        performSearchForSponsorships(); // ← يُنظف التظليل تلقائيًا
+        searchInput.focus();
+      }
+    });
+  }
+
+  //  عند النقر على زر البحث 
+  if (searchBtn) {
+    searchBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      performSearchForSponsorships();
+    });
+  }
 });

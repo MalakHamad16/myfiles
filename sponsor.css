@@ -1,6 +1,23 @@
-/* sponsor.css — مُحدَّث وموحّد */
+/* 
+   ===========================================================
+   sponsor.css — تنسيقات صفحة الكفالات (sponsor.html)
+   المشروع: GivHope
+   الملف مُخصّص لعرض حالات الكفالة (أيتام، تعليمية، معيشية، إلخ)
+   يحتوي على:
+     - تنسيقات البطاقات
+     - زر الفلترة
+     - ختم الحالة (مكفولة/مكفولة جزئيًا)
+     - أزرار التفاعل (عرض تفاصيل، اكفل، مشاركة)
+     -  خاصية البحث المُحسّنة (رقم + اسم)
+   ===========================================================
+*/
 
-/* === تنسيق عام للبطاقات === */
+
+/* 
+   === 1. تنسيقات أساسية لبطاقة الكفالة ===
+   - تُطبّق على <div class="sponsor-card">
+   - تشمل التأثيرات عند التحويم (hover)، والصورة، وتفاصيل الحالة
+*/
 .sponsor-card {
   border: 1px solid #e0e0e0;
   border-radius: 12px;
@@ -9,12 +26,21 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   background: white;
   font-family: "Cairo", sans-serif;
+  position: relative; /* ← مطلوب لـ ::before (الظل البنفسجي) */
 }
 .sponsor-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
+
+/* 
+   === 2. حاوية الصورة + عناصرها ===
+   - .card-image: حاوية الصورة (عالية 250px، مع ختم الحالة والـ amount-tag)
+   - .card-image img: صورة الكفالة (تغطية كاملة مع تأثير تكبير عند التحويم)
+   - .amount-tag: شريط المبلغ (أزرق، أعلى اليمين)
+   - .status-badge: ختم الحالة (في الأسفل: "مكفولة بنجاح"، "مكفولة جزئياً")
+*/
 .card-image {
   position: relative;
   height: 250px;
@@ -29,7 +55,6 @@
 .sponsor-card:hover .card-image img {
   transform: scale(1.05);
 }
-
 .amount-tag {
   position: absolute;
   top: 10px;
@@ -43,6 +68,13 @@
   z-index: 2;
 }
 
+
+/* 
+   === 3. محتوى البطاقة الداخلية (العنوان، المدة، الأزرار) ===
+   - .card-body: حاوية النصوص (مركزية، مع عناوين وفقرات)
+   - .card-body h3: "أهلاً، أنا [الاسم]"
+   - .duration-info: مربع معلومات المدة (خلفية فاتحة)
+*/
 .card-body {
   padding: 20px 16px;
   text-align: center;
@@ -53,7 +85,6 @@
   color: #333;
   font-weight: 600;
 }
-
 .duration-info {
   display: flex;
   justify-content: center;
@@ -75,32 +106,38 @@
   font-weight: 600;
 }
 
-/*  === الأزرار: 3 أزرار محاذاة في سطر واحد، متناسقة وواضحة === */
+
+/* 
+   === 4. أزرار التفاعل (عرض تفاصيل، اكفل الآن، مشاركة) ===
+   - .card-actions: حاوية الأزرار الثلاثة (محاذاة أفقية، مع تباعد موحد)
+   - .btn: نمط عام للأزرار (خط، حجم، تأثيرات)
+   - .btn-outline-primary: زر "عرض التفاصيل" (أزرق فاتح)
+   - .btn-primary: زر "اكفل الآن" (أزرق داكن)
+   - .btn-share: زر دائري صغير للمشاركة (أزرق داكن)
+*/
 .card-actions {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 12px; /* تباعد موحد */
+  gap: 12px;
   margin-top: 20px;
-  flex-wrap: nowrap; /* منع الالتفاف إلا عند الضرورة القصوى */
+  flex-wrap: nowrap;
 }
-
 .card-actions .btn {
   font-family: "Cairo", sans-serif;
   font-weight: 600;
   padding: 7px 12px;
   border-radius: 8px;
-   font-size: 12px;
-  min-width: 95px;     
+  font-size: 12px;
+  min-width: 95px;
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
-   gap: 5px;  
+  gap: 5px;
   white-space: nowrap;
   transition: all 0.2s ease;
 }
-
 .card-actions .btn-outline-primary {
   border-color: #0d6efd;
   color: #0d6efd;
@@ -110,7 +147,6 @@
   background: #0d6efd;
   color: white;
 }
-
 .card-actions .btn-primary {
   background: #0d6efd;
   border-color: #0d6efd;
@@ -120,8 +156,6 @@
   background: #0b5ed7;
   border-color: #0b5ed7;
 }
-
-/*  زر المشاركة — مُحسّن ليكون بنفس "الارتفاع البصري" كالأزرار الأخرى */
 .card-actions .btn-share {
   width: 42px;
   height: 42px;
@@ -129,7 +163,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.95rem; 
+  font-size: 0.95rem;
   background-color: #3b82f6;
   color: white;
   border: 2px solid #3b82f6;
@@ -144,46 +178,163 @@
   transform: scale(1.08);
 }
 
-/*  استجابة للجوال: لا نستخدم flex-direction: column إلا عند العرض < 360px */
-@media (max-width: 576px) {
-  .card-actions {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
 
-  .card-actions .btn {
-    min-width: 110px;
-    padding: 9px 14px;
-    font-size: 13px;
-  }
-
-  /* ضمان عدم اختفاء زر المشاركة بين الأزرار */
-  .card-actions > *:nth-child(2) {
-    order: 2;
-  }
-  .card-actions > *:nth-child(3) {
-    order: 3;
-  }
+/* 
+   === 5.  شريط البحث — مُضاف حديثًا لصفحة sponsor.html فقط ===
+   - .search-bar: حاوية مركزية لشريط البحث
+   - .search-input-wrapper: حاوية نسبية تسمح بوضع الزرين داخليًا
+   - #searchInput: حقل الإدخال (مع مسافات لاستيعاب الزرين)
+   - #clearSearch: زر المسح (×) — يظهر على اليسار عند الكتابة
+   - #searchButton: زر البحث  — دائري أرجواني، على اليمين
+   - selector ~: يضمن ظهور زر المسح عندما يكون الحقل غير فارغ أو مُركّزًا
+*/
+.search-bar {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+.search-input-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+}
+#searchInput {
+  padding: 10px 50px 10px 40px; /* ← 50px يمين (زر البحث)، 40px يسار (زر المسح) */
+  border: 2px solid #cbd5e1;
+  border-radius: 50px;
+  font-size: 1rem;
+  width: 100%;
+  outline: none;
+  font-family: "Cairo", sans-serif;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+#searchInput:focus {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+}
+#clearSearch {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  border: none;
+  font-size: 1.1rem;
+  color: #64748b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 2;
+}
+/* selector مُصلّح: ~ بدل + لأن <button id="clearSearch"> بعد <input> في DOM */
+#searchInput:not(:placeholder-shown) ~ #clearSearch,
+#searchInput:focus ~ #clearSearch {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+#clearSearch:hover {
+  background: #cbd5e1;
+  color: #475569;
+}
+#searchButton {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #8b5cf6;
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: background 0.2s;
+  z-index: 2;
+}
+#searchButton:hover {
+  background: #7c3aed;
 }
 
-/* تحسين إضافي لشاشات ضيقة جدًا (< 360px) */
-@media (max-width: 360px) {
-  .card-actions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .card-actions .btn,
-  .card-actions .btn-share {
-    min-width: auto;
-    justify-content: center;
-  }
-  .card-actions .btn-share {
-    width: 48px;
-    height: 48px;
-    margin: 0 auto;
-  }
+
+/* 
+   === 6.  Toast — رسالة مطفوّة مؤقتة ===
+   - يظهر عند:
+       • عدم وجود نتائج → " لا توجد كفالات تطابق بحثك."
+       • بحث باسم فقط (بدون رقم) → "💡 يُفضّل إضافة الرقم لنتائج أفضل."
+   - الموضع: فوق شريط البحث مباشرةً (بواسطة JS)
+   - المدة: ثانيتان (يُزال تلقائيًا)
+   - التأثير: ظهور/اختفاء سلس (opacity + transform)
+*/
+.toast {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fee2e2;
+  color: #dc2626;
+  border-left: 4px solid #ef4444;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1050;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+  transform: translateX(-50%) translateY(-10px);
 }
-/* === زر الفلترة === */
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+
+/* 
+   === 7. تظليل الكفالة المطابقة — ثابت  ===
+   - يُفعّل عند: <div class="sponsor-card highlight">
+   - التظليل أزرق-بنفسجي شفاف (15%)، ثابت، لا يختفي
+   - المحتوى يعلو التظليل لضمان الوضوح
+*/
+.sponsor-card.highlight {
+  position: relative;
+}
+.sponsor-card.highlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(139, 92, 246, 0.15); /* بنفسجي 15% */
+  border-radius: 12px;
+  pointer-events: none;
+  z-index: 1;
+}
+/* رفع المحتوى فوق التظليل */
+.sponsor-card.highlight > .card-image,
+.sponsor-card.highlight > .card-body {
+  position: relative;
+  z-index: 2;
+}
+
+
+/* 
+   === 8. زر الفلترة (أعلى الصفحة) ===
+   - .filter-btn: زر تصفية (أيتام، تعليمية، معيشية، إلخ)
+   - يُفعّل تصفية البطاقات وفق النوع
+*/
 .filter-btn {
   padding: 8px 16px;
   border: none;
@@ -200,7 +351,12 @@
   color: white;
 }
 
-/* === ختم الحالة === */
+
+/* 
+   === 9. ختم حالة الكفالة (في الصورة) ===
+   - يظهر في الأسفل: "مكفولة بنجاح" (أخضر)، "مكفولة جزئياً" (أحمر)
+   - مُصمم كشريط أفقي، مع ظل خفيف
+*/
 .status-badge {
   position: absolute;
   bottom: 0;
@@ -215,18 +371,23 @@
   font-family: "Cairo", sans-serif;
   color: white;
   border-radius: 8px 8px 0 0;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   z-index: 3;
 }
 .status-badge.fully-sponsored { background: #2ecc71; }
 .status-badge.partially-sponsored { background: #e74c3c; }
 
-/*  نافذة المشاركة (مُوحّدة) */
+
+/* 
+   === 10. نافذة المشاركة (Modal) ===
+   - تظهر عند النقر على زر "مشاركة"
+   - تحتوي أيقونات: واتساب، فيسبوك، نسخ الرابط
+*/
 .modal-overlay {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   justify-content: center;
   align-items: center;
   z-index: 9999;
@@ -271,13 +432,18 @@
   text-decoration: none;
   transition: transform 0.2s;
 }
-.share-icons a[href*="wa.me"] { background-color: #25D366; }
+.share-icons a[href*="wa.me"] { background-color: #25d366; }
 .share-icons a[href*="facebook.com"] { background-color: #1877f2; }
 .share-icons button { background-color: #6b7280; }
 .share-icons a:hover,
 .share-icons button:hover { transform: scale(1.1); }
 
-/* زر "سجّل دخولك أولًا" — يبدو معطّلاً بصريًا لكنه قابل للنقر */
+
+/* 
+   === 11. زر "سجّل دخولك أولًا" ===
+   - يظهر للزوار (غير المسجّلين)
+   - يبدو معطّلاً بصريًا (رمادي)، لكنه قابل للنقر (يوجّه لـ login.html)
+*/
 .btn-login-prompt {
   background-color: #94a3b8 !important;
   color: white !important;
@@ -299,7 +465,14 @@ a.btn-login-prompt {
   gap: 6px;
 }
 
-/*  استجابة للجوال */
+
+/* 
+   === 12. استجابة للجوال ===
+   - عند الشاشات الصغيرة (<576px): 
+       • أزرار التفاعل تُرتّب عموديًا
+       • زر المشاركة يصبح في المنتصف
+       • ختم الحالة يصغر
+*/
 @media (max-width: 576px) {
   .card-actions {
     flex-direction: column;
@@ -313,6 +486,11 @@ a.btn-login-prompt {
     font-size: 12px;
     padding: 0 8px;
   }
-  .sponsor-card { margin-bottom: 20px; }
-  .duration-info { flex-direction: column; gap: 10px; }
+  .sponsor-card {
+    margin-bottom: 20px;
+  }
+  .duration-info {
+    flex-direction: column;
+    gap: 10px;
+  }
 }
