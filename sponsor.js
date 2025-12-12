@@ -35,7 +35,7 @@ function getImagePath(type) {
     living: "living.jpg",
     general: "general.jpg",
   };
-  return `/uploads/sponsor/${imageMap[type] || "default.jpg"}`;
+  return `/public/sponsor/${imageMap[type] || "default.jpg"}`;
 }
 
 function renderCases(filter) {
