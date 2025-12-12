@@ -153,7 +153,7 @@ function createCampaignCard(camp) {
     <div class="campaign-image">
       <img src="${camp.image}" alt="${
     camp.title
-  }" onerror="this.src='https://via.placeholder.com/300x200?text=لا توجد صورة'">
+  }" onerror="this.src='/public/uploads/default.jpg'">
       <span class="status-badge" style="background:${
         statusInfo.color
       }; color:white">${statusInfo.text}</span>
